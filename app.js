@@ -6,9 +6,6 @@ var app = express();
 app.set('views', __dirname + '/views');
 app.engine('html', engines.mustache);
 app.set('view engine', 'html');
-//var viewPath = path.join(__dirname, 'views');
-//app.set('views', viewPath);
-//app.set('view engine', 'html');
 
 app.get('/check/me', function (req, res) {
   res.render('checkme.html');
