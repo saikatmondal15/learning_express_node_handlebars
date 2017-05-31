@@ -6,7 +6,7 @@ var Vision =require('vision');
 var server = new Hapi.Server();
 server.connection({ 
     host: 'localhost', 
-    port: 4000 
+    port: 5000 
 });
 
 //register view engine
@@ -17,7 +17,8 @@ server.views({
         'html': handlebars
     },
     relativeTo :__dirname,
-    path: 'views'
+    path: 'views',
+    isCached: false
    });
 
 // Add the route
@@ -25,7 +26,8 @@ server.route({
     method: 'GET',
     path: '/',
     handler: function (request, reply) {
-        reply.view('index.html');
+        var body = {title: "hello from index page"};
+        reply.view('index.html', body);
     }
 });
 
@@ -33,7 +35,8 @@ server.route({
     method: 'GET',
     path: '/hello',
     handler: function (request, reply) {
-        reply.view('hello.html');
+        var body = {title: "hello from hello page"}; 
+        reply.view('hello.html', body);
     }
 });
 
