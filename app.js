@@ -1,22 +1,46 @@
-var express = require('express');
-var path = require('path');
-var engines = require('consolidate');
-var app = express();
+var Hapi = require('hapi');
+var handlebars = require("handlebars");
+var Vision =require('vision');
 
-app.set('views', __dirname + '/views');
-app.engine('html', engines.mustache);
-app.set('view engine', 'html');
-
-app.get('/check/me', function (req, res) {
-  res.render('checkme.html');
-});
-app.get('/', function (req, res) {
-  res.render('index.html');
+// Create a server with a host and port
+var server = new Hapi.Server();
+server.connection({ 
+    host: 'localhost', 
+    port: 4000 
 });
 
+//register view engine
+server.register(Vision);
 
+server.views({
+    engines: {
+        'html': handlebars
+    },
+    relativeTo :__dirname,
+    path: 'views'
+   });
 
+// Add the route
+server.route({
+    method: 'GET',
+    path: '/',
+    handler: function (request, reply) {
+        reply.view('index.html');
+    }
+});
 
-app.listen(3000, function () {
-  console.log('Example app listening on port 3000!')
+server.route({
+    method: 'GET',
+    path: '/hello',
+    handler: function (request, reply) {
+        reply.view('hello.html');
+    }
+});
+
+// Start the server
+server.start(function(err) {
+    if (err) {
+        throw err;
+    }
+    console.log('Server running at:', server.info.uri);
 });
