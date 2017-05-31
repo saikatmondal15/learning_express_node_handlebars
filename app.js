@@ -1,6 +1,4 @@
 var express = require('express');
-var handlebars = require('handlebars');
-//var fs = require('fs');
 var path = require('path');
 var engines = require('consolidate');
 var app = express();
