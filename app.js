@@ -1,6 +1,8 @@
 var Hapi = require('hapi');
 var handlebars = require("handlebars");
 var Vision =require('vision');
+var mongo = require('mongoskin');
+var db = mongo.db("mongodb://localhost:27017/connect_db", {native_parser:true});
 
 // Create a server with a host and port
 var server = new Hapi.Server();
@@ -21,15 +23,20 @@ server.views({
     isCached: false
    });
 
-// Add the route
+
 server.route({
     method: 'GET',
     path: '/',
     handler: function (request, reply) {
-        var body = {title: "hello from index page"};
-        reply.view('index.html', body);
+        db.collection("hello_collection").find().toArray(function(err, items) {
+          var body = {title: items};
+          reply.view('index.html', body);
+          db.close();
+       }); 
     }
 });
+
+
 
 server.route({
     method: 'GET',

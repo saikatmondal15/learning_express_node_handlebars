@@ -1,4 +1,20 @@
 <html>
 <title>Index</title>
-<body>{{title}}</body>
+<body>
+<table style="width:100%; border: 1px solid black; text-align:center">
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Content</th>
+</tr>
+  {{#each title}}
+<tr>
+  <td>{{name}}</td>
+   <td>{{description}}</td>
+    <td>{{content}}</td>
+</tr>
+  {{/each}}
+</tr>
+</table>
+</body>
 </html>
