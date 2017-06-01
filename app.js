@@ -47,6 +47,9 @@ server.route({
     console.log(data.description);
     console.log(data.content);
     db.collection("hello_collection").insert( { name: data.name, description: data.description, content: data.content  } );
+
+    db.close();
+    reply().redirect("/");
        
     }
 });
