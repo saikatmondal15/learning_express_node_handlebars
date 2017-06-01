@@ -1,11 +1,11 @@
 <html>
 <title>Index</title>
 <body>
-<table style="width:100%; border: 1px solid black; text-align:center">
+<table style="width:100%; text-align:center" border="1">
 <tr>
-<th>Name</th>
-<th>Description</th>
-<th>Content</th>
+<td>Name</td>
+<td>Description</td>
+<td>Content</td>
 </tr>
   {{#each title}}
 <tr>
@@ -14,7 +14,24 @@
     <td>{{content}}</td>
 </tr>
   {{/each}}
-</tr>
 </table>
+<form action="new_data" method="post">
+        <p>
+          NAME:<input type="text" id="name" name="name" value="" />
+                
+        </p>
+	<p>
+         DESCRIPTION: <input type="text" id="description" name="description" value="" />
+                
+        </p>
+	<p>
+         CONTENT: <input type="text" id="content" name="content" value="" />
+                
+        </p>
+
+        <p>
+          <button name="submit" type="submit">Submit</button>
+        </p>
+      </form>
 </body>
 </html>

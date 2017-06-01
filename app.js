@@ -39,11 +39,15 @@ server.route({
 
 
 server.route({
-    method: 'GET',
-    path: '/hello',
+    method: 'POST',
+    path: '/new_data',
     handler: function (request, reply) {
-        var body = {title: "hello from hello page"}; 
-        reply.view('hello.html', body);
+    var data = request.payload;
+    console.log(data.name);
+    console.log(data.description);
+    console.log(data.content);
+    db.collection("hello_collection").insert( { name: data.name, description: data.description, content: data.content  } );
+       
     }
 });
 
