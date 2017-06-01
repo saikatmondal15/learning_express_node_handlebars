@@ -1,0 +1,3 @@
+{ "_id" : { "$oid" : "592ed35d66931de67617b1de" }, "name" : "palindrome", "description" : "to check a number is palindrome or not", "content" : "" }
+{ "_id" : { "$oid" : "592ed3e266931de67617b1df" }, "name" : "prime", "description" : "to find a number is palindrome or not", "content" : "" }
+{ "_id" : { "$oid" : "592ed41966931de67617b1e0" }, "name" : "armstrong", "description" : "to find a number is armstrong or not", "content" : "" }
