@@ -43,7 +43,6 @@ server.route({
     var params = request.query.id;
     db.collection("hello_collection").find({"_id":ObjectID(params)}).toArray(function(err, items) {
             
-	    //console.log(items[0]);
             reply.view('edit.html',items[0]);
 
                     db.close();
@@ -56,8 +55,12 @@ server.route({
     method: 'GET',
     path: '/delete',
     handler: function (request, reply) {
-         reply.view('delete.html');
+        var params = request.query.id;
+	db.collection("hello_collection").remove({ "_id": ObjectID(params)});
+        db.close();
+        reply().redirect("/");
     }
+    
 });
 
 
@@ -78,7 +81,6 @@ server.route({
     path: '/edit_data',
     handler: function (request, reply) {
     var data = request.payload;
-    console.log(data);
     db.collection('hello_collection').update({ "_id" : ObjectID(data.id) },{$set: { name : data.name, description : data.description , content : data.content } }
 );
     db.close();
