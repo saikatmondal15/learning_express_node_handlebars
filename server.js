@@ -1,5 +1,4 @@
 var Glue = require('glue');
-var Hapi = require('hapi');
 
 
 
@@ -8,16 +7,28 @@ var manifest = {
     host: "localhost",
     port: "4000",
     labels: ['web']
-  }],
+  }, {
+    host: "localhost",
+    port: "5000",
+    labels: ['api'],
+    routes:{
+      cors: true  
+    }
+  }
+],
   registrations: [{
     plugin: {
-      register: './web',
-      options: {
-         config: {} 
-       }
+      register: './web'
     },
     options: {
       select: ['web']
+    }
+  }, {
+    plugin: {
+      register: './api',
+    },
+    options: {
+      select: ['api']
     }
   }]
 };
@@ -27,9 +38,7 @@ var options = {
 };
 
 Glue.compose(manifest, options, function(err, server) {
-  console.log("check this out");
   if (err) {
-    console.log(err);
     throw err;
   }
 
