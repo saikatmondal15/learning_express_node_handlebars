@@ -6,12 +6,21 @@
 <td>Name</td>
 <td>Description</td>
 <td>Content</td>
+<td>Edit</td>
+<td>Delete</td>
+
+
+
+
 </tr>
   {{#each title}}
 <tr>
   <td>{{name}}</td>
    <td>{{description}}</td>
     <td>{{content}}</td>
+    <td><a href="/edit?id={{_id}}">Edit</a></td>
+    <td><button onclick="window.location.href='/delete'">Delete</button></td>
+
 </tr>
   {{/each}}
 </table>

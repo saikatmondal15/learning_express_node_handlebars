@@ -3,6 +3,7 @@ var handlebars = require("handlebars");
 var Vision =require('vision');
 var mongo = require('mongoskin');
 var db = mongo.db("mongodb://localhost:27017/connect_db", {native_parser:true});
+var ObjectID = mongo.ObjectID;
 
 // Create a server with a host and port
 var server = new Hapi.Server();
@@ -29,13 +30,35 @@ server.route({
     path: '/',
     handler: function (request, reply) {
         db.collection("hello_collection").find().toArray(function(err, items) {
-          var body = {title: items};
+           var body = {title: items};
           reply.view('index.html', body);
           db.close();
-       }); 
+       });
+    }
+});
+server.route({
+    method: 'GET',
+    path: '/edit',
+    handler: function (request, reply) {
+    var params = request.query.id;
+    db.collection("hello_collection").find({"_id":ObjectID(params)}).toArray(function(err, items) {
+            
+	    //console.log(items[0]);
+            reply.view('edit.html',items[0]);
+
+                    db.close();
+       });;
+   	 
     }
 });
 
+server.route({
+    method: 'GET',
+    path: '/delete',
+    handler: function (request, reply) {
+         reply.view('delete.html');
+    }
+});
 
 
 server.route({
@@ -43,11 +66,21 @@ server.route({
     path: '/new_data',
     handler: function (request, reply) {
     var data = request.payload;
-    console.log(data.name);
-    console.log(data.description);
-    console.log(data.content);
-    db.collection("hello_collection").insert( { name: data.name, description: data.description, content: data.content  } );
+     db.collection("hello_collection").insert( { name: data.name, description: data.description, content: data.content  } );
 
+    db.close();
+    reply().redirect("/");
+       
+    }
+});
+server.route({
+    method: 'POST',
+    path: '/edit_data',
+    handler: function (request, reply) {
+    var data = request.payload;
+    console.log(data);
+    db.collection('hello_collection').update({ "_id" : ObjectID(data.id) },{$set: { name : data.name, description : data.description , content : data.content } }
+);
     db.close();
     reply().redirect("/");
        
