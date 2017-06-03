@@ -1,4 +1,3 @@
-var Hapi = require('hapi');
 var handlebars = require("handlebars");
 var Vision =require('vision');
 var mongo = require('mongoskin');
@@ -6,12 +5,7 @@ var db = mongo.db("mongodb://localhost:27017/connect_db", {native_parser:true});
 var ObjectID = mongo.ObjectID;
 
 // Create a server with a host and port
-var server = new Hapi.Server();
-server.connection({ 
-    host: 'localhost', 
-    port: 5000 
-});
-
+exports.register = function (server, options , next ) {
 //register view engine
 server.register(Vision);
 
@@ -89,10 +83,8 @@ server.route({
     }
 });
 
-// Start the server
-server.start(function(err) {
-    if (err) {
-        throw err;
-    }
-    console.log('Server running at:', server.info.uri);
-});
+
+  return next();
+};
+
+exports.register.attributes = { name: 'web' };

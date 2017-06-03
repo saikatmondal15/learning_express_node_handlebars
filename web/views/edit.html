@@ -1,0 +1,26 @@
+<html>
+<head>
+<title>edit</title>
+</head>
+<body>
+<form action="/edit_data" method="post">
+       <input type="hidden" name="id" value="{{_id}}"/>
+        <p>
+          NAME:<input type="text" id="name" name="name" value={{name}} />
+                
+        </p>
+	<p>
+         DESCRIPTION: <input type="text" id="description" name="description" value={{description}} />
+                
+        </p>
+	<p>
+         CONTENT: <input type="text" id="content" name="content" value={{content}} />
+                
+        </p>
+
+        <p>
+          <button name="submit" type="submit">Save</button>
+        </p>
+      </form>
+</body>
+</html>
