@@ -1,13 +1,18 @@
 var handlebars = require("handlebars");
 var Vision =require('vision');
+var Inert = require('inert');
+var Wreck = require('wreck');
 var mongo = require('mongoskin');
+var fs = require("fs");
 var db = mongo.db("mongodb://localhost:27017/connect_db", {native_parser:true});
 var ObjectID = mongo.ObjectID;
+var Request = require("request");
 
 // Create a server with a host and port
 exports.register = function (server, options , next ) {
 //register view engine
 server.register(Vision);
+server.register(Inert);
 
 server.views({
     engines: {
@@ -23,11 +28,10 @@ server.route({
     method: 'GET',
     path: '/',
     handler: function (request, reply) {
-        db.collection("hello_collection").find().toArray(function(err, items) {
-           var body = {title: items};
-          reply.view('index.html', body);
-          db.close();
-       });
+	Request("http://localhost:5000/retrieve", function(err, res, body){
+            var _body = {title: JSON.parse(body)};
+            reply.view("index.html", _body);
+	});
     }
 });
 server.route({
@@ -81,6 +85,15 @@ server.route({
     reply().redirect("/");
        
     }
+});
+
+server.route({
+  method: "GET",
+  path: "/bower_components/{path1}/{path2}",
+  handler: function (request, reply) {
+    var Path = "./web/bower_components/" + request.params.path1  +"/" + request.params.path2;
+    reply.file(Path); 
+  }
 });
 
 
